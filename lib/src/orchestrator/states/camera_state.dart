@@ -71,20 +71,15 @@ abstract class CameraState {
         sensor: previous.sensors.first.position == SensorPosition.back
             ? Sensor.position(SensorPosition.front)
             : Sensor.position(SensorPosition.back),
-        // TODO Initial values are not set in native when set like this
         aspectRatio: aspectRatio ?? CameraAspectRatios.ratio_4_3,
         zoom: zoom ?? 0.0,
         flashMode: flash ?? FlashMode.none,
       );
     } else {
-      // switch all camera position in array by one like this:
-      // old: [front, telephoto, wide]
-      // new : [wide, front, telephoto]
       final newSensorsCopy = [...previous.sensors.whereNotNull()];
       next = SensorConfig.multiple(
         sensors: newSensorsCopy
           ..insert(0, newSensorsCopy.removeAt(newSensorsCopy.length - 1)),
-        // TODO Initial values are not set in native when set like this
         aspectRatio: aspectRatio ?? CameraAspectRatios.ratio_4_3,
         zoom: zoom ?? 0.0,
         flashMode: flash ?? FlashMode.none,

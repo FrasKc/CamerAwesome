@@ -8,7 +8,6 @@ import 'package:camerawesome/src/orchestrator/models/sensor_config.dart';
 import 'package:camerawesome/src/orchestrator/states/camera_state.dart';
 import 'package:camerawesome/src/widgets/utils/awesome_oriented_widget.dart';
 
-Sensor mySensor = Sensor.position(SensorPosition.front);
 
 class AwesomeFlashButton extends StatelessWidget {
   final CameraState state;
@@ -25,7 +24,8 @@ class AwesomeFlashButton extends StatelessWidget {
   })  : iconBuilder = iconBuilder ??
             ((flashMode) {
               // Check if the sensor position is front
-              if (mySensor.sensorPosition == SensorPosition.front) {
+              final sensor = state.sensorConfig.sensors.first;
+              if (sensor.position == SensorPosition.front) {
                 print("Sensor position is front");
                 // Always return the flash_on icon for front camera
                 return AwesomeCircleWidget.icon(
@@ -33,7 +33,7 @@ class AwesomeFlashButton extends StatelessWidget {
                   theme: theme,
                 );
               } else {
-                print("Sensor position is not front");
+                print("Sensor position is back");
                 // Original logic for other cases
                 final IconData icon;
                 switch (flashMode) {
@@ -55,7 +55,8 @@ class AwesomeFlashButton extends StatelessWidget {
             }),
         onFlashTap = onFlashTap ??
             ((sensorConfig, flashMode) {
-              if (mySensor.sensorPosition == SensorPosition.front) {
+              final sensor = state.sensorConfig.sensors.first;
+              if (sensor.position == SensorPosition.front) {
                 sensorConfig.setFlashMode(FlashMode.on);
               } else {
                 sensorConfig.switchCameraFlash();

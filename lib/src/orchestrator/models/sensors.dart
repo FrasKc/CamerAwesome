@@ -26,18 +26,18 @@ class Sensor {
 
   Sensor.position(SensorPosition position)
       : this._(
-          position: position,
-        );
+    position: position,
+  );
 
   Sensor.type(SensorType type)
       : this._(
-          type: type,
-        );
+    type: type,
+  );
 
   Sensor.id(String deviceId)
       : this._(
-          deviceId: deviceId,
-        );
+    deviceId: deviceId,
+  );
 
   SensorPosition? get sensorPosition => position;
 }
