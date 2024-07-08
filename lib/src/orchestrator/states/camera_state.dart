@@ -73,7 +73,7 @@ abstract class CameraState {
             : Sensor.position(SensorPosition.back),
         aspectRatio: aspectRatio ?? CameraAspectRatios.ratio_4_3,
         zoom: zoom ?? 0.0,
-        flashMode: flash ?? FlashMode.none,
+        flashMode: flash ?? FlashMode.on,
       );
     } else {
       final newSensorsCopy = [...previous.sensors.whereNotNull()];
@@ -82,7 +82,7 @@ abstract class CameraState {
           ..insert(0, newSensorsCopy.removeAt(newSensorsCopy.length - 1)),
         aspectRatio: aspectRatio ?? CameraAspectRatios.ratio_4_3,
         zoom: zoom ?? 0.0,
-        flashMode: flash ?? FlashMode.none,
+        flashMode: flash ?? FlashMode.on,
       );
     }
     await cameraContext.setSensorConfig(next);
