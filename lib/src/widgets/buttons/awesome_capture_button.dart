@@ -136,6 +136,7 @@ class VideoButtonPainter extends CustomPainter {
       ..isAntiAlias = true;
     var radius = size.width / 2;
     var center = Offset(size.width / 2, size.height / 2);
+    bgPainter.color = Colors.white.withOpacity(0.7);
     canvas.drawCircle(center, radius, bgPainter);
 
     if (isRecording) {
