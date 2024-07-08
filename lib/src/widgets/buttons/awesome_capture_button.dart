@@ -105,16 +105,17 @@ class CameraButtonPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var bgPainter = Paint()
-      ..style = PaintingStyle.fill
+    var borderPainter = Paint()
+      ..style = PaintingStyle.stroke // Change to stroke to draw only the border
+      ..strokeWidth = 8 // Set the thickness of the border
+      ..color = Colors.white // Border color
       ..isAntiAlias = true;
+
     var radius = size.width / 2;
     var center = Offset(size.width / 2, size.height / 2);
-    bgPainter.color = Colors.white;
-    canvas.drawCircle(center, radius, bgPainter);
 
-    bgPainter.color = Colors.transparent;
-    canvas.drawCircle(center, radius - 8, bgPainter);
+    // Draw the border circle
+    canvas.drawCircle(center, radius - borderPainter.strokeWidth / 2, borderPainter);
   }
 
   @override
@@ -135,7 +136,6 @@ class VideoButtonPainter extends CustomPainter {
       ..isAntiAlias = true;
     var radius = size.width / 2;
     var center = Offset(size.width / 2, size.height / 2);
-    bgPainter.color = Colors.white;
     canvas.drawCircle(center, radius, bgPainter);
 
     if (isRecording) {

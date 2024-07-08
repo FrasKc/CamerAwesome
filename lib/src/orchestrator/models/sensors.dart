@@ -38,4 +38,6 @@ class Sensor {
       : this._(
           deviceId: deviceId,
         );
+
+  SensorPosition? get sensorPosition => position;
 }

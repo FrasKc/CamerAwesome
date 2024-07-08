@@ -8,6 +8,8 @@ import 'package:camerawesome/src/orchestrator/models/sensor_config.dart';
 import 'package:camerawesome/src/orchestrator/states/camera_state.dart';
 import 'package:camerawesome/src/widgets/utils/awesome_oriented_widget.dart';
 
+Sensor mySensor = Sensor.position(SensorPosition.front);
+
 class AwesomeFlashButton extends StatelessWidget {
   final CameraState state;
   final AwesomeTheme? theme;
@@ -21,30 +23,39 @@ class AwesomeFlashButton extends StatelessWidget {
     Widget Function(FlashMode)? iconBuilder,
     void Function(SensorConfig, FlashMode)? onFlashTap,
   })  : iconBuilder = iconBuilder ??
-      ((flashMode) {
-        final IconData icon;
-        switch (flashMode) {
-          case FlashMode.none:
-            icon = Icons.flash_off;
-            break;
-          case FlashMode.on:
-            icon = Icons.flash_on;
-            break;
-          case FlashMode.auto:
-            icon = Icons.flash_auto;
-            break;
-        }
-        return AwesomeCircleWidget.icon(
-          icon: icon,
-          theme: theme,
-        );
-      }),
+            ((flashMode) {
+              // Check if the sensor position is front
+              if (mySensor.sensorPosition == SensorPosition.front) {
+                // Always return the flash_on icon for front camera
+                return AwesomeCircleWidget.icon(
+                  icon: Icons.flash_on,
+                  theme: theme,
+                );
+              } else {
+                // Original logic for other cases
+                final IconData icon;
+                switch (flashMode) {
+                  case FlashMode.none:
+                    icon = Icons.flash_off;
+                    break;
+                  case FlashMode.on:
+                    icon = Icons.flash_on;
+                    break;
+                  case FlashMode.auto:
+                    icon = Icons.flash_auto;
+                    break;
+                }
+                return AwesomeCircleWidget.icon(
+                  icon: icon,
+                  theme: theme,
+                );
+              }
+            }),
         onFlashTap = onFlashTap ??
             ((sensorConfig, flashMode) {
-              if (Sensor.position == SensorPosition.front) {
+              if (mySensor.sensorPosition == SensorPosition.front) {
                 sensorConfig.setFlashMode(FlashMode.on);
               } else {
-                // Original logic or modified logic for rear camera
                 sensorConfig.switchCameraFlash();
               }
             });

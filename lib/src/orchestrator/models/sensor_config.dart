@@ -7,7 +7,7 @@ import 'package:rxdart/rxdart.dart';
 
 // TODO find a way to explain that this sensorconfig is not bound anymore (user changed sensor for example)
 class SensorConfig {
-  late BehaviorSubject<FlashMode> _flashModeController;
+  late BehaviorSubject<FlashMode>  _flashModeController;
 
   late BehaviorSubject<SensorType> _sensorTypeController;
 
@@ -105,7 +105,6 @@ class SensorConfig {
   /// [FlashMode.none] no flash
   /// [FlashMode.on] always flashing when taking photo
   /// [FlashMode.auto] let the camera decide if it should use flash or not
-  /// [FlashMode.always] flash light stays open
   Future<void> setFlashMode(FlashMode flashMode) async {
     await CamerawesomePlugin.setFlashMode(flashMode);
     _flashModeController.sink.add(flashMode);
@@ -121,11 +120,11 @@ class SensorConfig {
       case FlashMode.none:
         newFlashMode = FlashMode.auto;
         break;
-      case FlashMode.on:
-        newFlashMode = FlashMode.none;
-        break;
       case FlashMode.auto:
         newFlashMode = FlashMode.on;
+        break;
+      case FlashMode.on:
+        newFlashMode = FlashMode.none;
         break;
     }
     setFlashMode(newFlashMode);
