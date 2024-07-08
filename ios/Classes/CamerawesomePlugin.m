@@ -497,23 +497,32 @@ FlutterEventSink physicalButtonEventSink;
   }
 }
 
+- (void)setFrontFlashMode:(BOOL)enable {
+    if (enable) {
+        [[UIScreen mainScreen] setBrightness:1.0];
+    } else {
+        [[UIScreen mainScreen] setBrightness:[UIScreen mainScreen].brightness];
+    }
+}
+
 - (void)setFlashModeMode:(nonnull NSString *)mode error:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {
-  if (mode == nil || mode.length <= 0) {
-    *error = [FlutterError errorWithCode:@"FLASH_MODE_ERROR" message:@"a flash mode NONE, AUTO, ALWAYS must be provided" details:nil];
-    return;
-  }
-  
-  if (self.camera == nil && self.multiCamera == nil) {
-    *error = [FlutterError errorWithCode:@"CAMERA_MUST_BE_INIT" message:@"init must be call before start" details:nil];
-    return;
-  }
-  
-  CameraFlashMode flash = [FlashModeUtils flashFromString:mode];
-  if (self.multiCamera != nil) {
-    [self.multiCamera setFlashMode:flash error:error];
-  } else {
-    [self.camera setFlashMode:flash error:error];
-  }
+    if (mode == nil || mode.length <= 0) {
+        *error = [FlutterError errorWithCode:@"FLASH_MODE_ERROR" message:@"a flash mode NONE, AUTO, ALWAYS must be provided" details:nil];
+        return;
+    }
+
+    if (self.camera != nil && self.camera.currentCaptureDevice.position == AVCaptureDevicePositionFront) {
+        if ([mode isEqualToString:@"on"] || [mode isEqualToString:@"auto"]) {
+            [self setFrontFlashMode:YES];
+        } else {
+            [self setFrontFlashMode:NO];
+        }
+    } else if (self.multiCamera != nil) {
+        [self.multiCamera setFlashMode:flash error:error];
+    } else {
+        CameraFlashMode flash = [FlashModeUtils flashFromString:mode];
+        [self.camera setFlashMode:flash error:error];
+    }
 }
 
 - (void)setPhotoSizeSize:(nonnull PreviewSize *)size error:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {

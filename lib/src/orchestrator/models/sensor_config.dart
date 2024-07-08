@@ -106,9 +106,14 @@ class SensorConfig {
   /// [FlashMode.on] always flashing when taking photo
   /// [FlashMode.auto] let the camera decide if it should use flash or not
   Future<void> setFlashMode(FlashMode flashMode) async {
-    await CamerawesomePlugin.setFlashMode(flashMode);
+    if (sensors.first.position == SensorPosition.front) {
+      await CamerawesomePlugin.setFrontFlashMode(flashMode != FlashMode.none);
+    } else {
+      await CamerawesomePlugin.setFlashMode(flashMode);
+    }
     _flashModeController.sink.add(flashMode);
   }
+
 
   /// Returns the current flash mode without stream
   FlashMode get flashMode => _flashModeController.value;

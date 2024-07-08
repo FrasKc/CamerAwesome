@@ -28,10 +28,7 @@ class AwesomeFlashButton extends StatelessWidget {
               if (sensor.position == SensorPosition.front) {
                 print("Sensor position is front");
                 // Always return the flash_on icon for front camera
-                return AwesomeCircleWidget.icon(
-                  icon: Icons.flash_on,
-                  theme: theme,
-                );
+                return const SizedBox();
               } else {
                 print("Sensor position is back");
                 // Original logic for other cases

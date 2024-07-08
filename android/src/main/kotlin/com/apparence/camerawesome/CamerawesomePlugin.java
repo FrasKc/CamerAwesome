@@ -8,5 +8,19 @@
 
    public static final String TAG = CamerawesomePlugin.class.getName();
 
+     private void setFrontFlashMode(boolean enable) {
+         if (enable) {
+             Window window = activity.getWindow();
+             WindowManager.LayoutParams layout = window.getAttributes();
+             layout.screenBrightness = 1F;
+             window.setAttributes(layout);
+         } else {
+             Window window = activity.getWindow();
+             WindowManager.LayoutParams layout = window.getAttributes();
+             layout.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
+             window.setAttributes(layout);
+         }
+     }
+
 
  }

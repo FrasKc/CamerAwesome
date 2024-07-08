@@ -302,6 +302,10 @@ class CamerawesomePlugin {
     return CameraInterface().setFlashMode(flashMode.name.toUpperCase());
   }
 
+  static Future<void> setFrontFlashMode(bool enable) async {
+    return CameraInterface().setFrontFlashMode(enable);
+  }
+
   static startAutoFocus() {
     return CameraInterface().handleAutoFocus();
   }
