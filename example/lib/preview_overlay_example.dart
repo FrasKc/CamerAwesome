@@ -64,7 +64,7 @@ class _CameraPageState extends State<CameraPage> {
           return AwesomeTopActions(
             state: state,
             children: [
-              AwesomeFlashButton(state: state, isFrontCamera: false),
+              AwesomeFlashButton(state: state),
               if (state is PhotoCameraState)
                 AwesomeAspectRatioButton(state: state),
             ],

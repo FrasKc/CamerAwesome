@@ -1,3 +1,4 @@
+import 'package:camerawesome/camerawesome_plugin.dart';
 import 'package:camerawesome/src/widgets/utils/awesome_circle_icon.dart';
 import 'package:camerawesome/src/widgets/utils/awesome_theme.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ class AwesomeFlashButton extends StatelessWidget {
   final AwesomeTheme? theme;
   final Widget Function(FlashMode) iconBuilder;
   final void Function(SensorConfig, FlashMode) onFlashTap;
-  final bool isFrontCamera;
 
   AwesomeFlashButton({
     super.key,
@@ -20,7 +20,6 @@ class AwesomeFlashButton extends StatelessWidget {
     this.theme,
     Widget Function(FlashMode)? iconBuilder,
     void Function(SensorConfig, FlashMode)? onFlashTap,
-    required this.isFrontCamera,
   })  : iconBuilder = iconBuilder ??
       ((flashMode) {
         final IconData icon;
@@ -42,7 +41,7 @@ class AwesomeFlashButton extends StatelessWidget {
       }),
         onFlashTap = onFlashTap ??
             ((sensorConfig, flashMode) {
-              if (isFrontCamera) {
+              if (Sensor.position == SensorPosition.front) {
                 sensorConfig.setFlashMode(FlashMode.on);
               } else {
                 // Original logic or modified logic for rear camera

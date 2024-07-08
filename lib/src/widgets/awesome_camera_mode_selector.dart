@@ -105,8 +105,6 @@ class _CameraModePagerState extends State<CameraModePager> {
                   opacity: index == _index ? 1 : 0.2,
                   child: AwesomeBouncingWidget(
                     child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
                         child: Text(
                           cameraMode.name.toUpperCase(),
                           style: const TextStyle(
@@ -121,7 +119,6 @@ class _CameraModePagerState extends State<CameraModePager> {
                           ),
                         ),
                       ),
-                    ),
                     onTap: () {
                       _pageController.animateToPage(
                         index,
