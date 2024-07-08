@@ -27,22 +27,17 @@ class AwesomeBottomActions extends StatelessWidget {
             AwesomeCaptureButton(
               state: state,
             ),
-        left = left ??
-            (state is VideoRecordingCameraState
-                ? AwesomePauseResumeButton(
-                    state: state,
-                  )
-                : Builder(builder: (context) {
-                    final theme = AwesomeThemeProvider.of(context).theme;
-                    return AwesomeCameraSwitchButton(
-                      state: state,
-                      theme: theme.copyWith(
-                        buttonTheme: theme.buttonTheme.copyWith(
-                          backgroundColor: Colors.white12,
-                        ),
-                      ),
-                    );
-                  })),
+        left = Builder(builder: (context) {
+          final theme = AwesomeThemeProvider.of(context).theme;
+          return AwesomeCameraSwitchButton(
+            state: state,
+            theme: theme.copyWith(
+              buttonTheme: theme.buttonTheme.copyWith(
+                backgroundColor: Colors.white12,
+              ),
+            ),
+          );
+        }),
         right = right ??
             (state is VideoRecordingCameraState
                 ? const SizedBox(width: 48)

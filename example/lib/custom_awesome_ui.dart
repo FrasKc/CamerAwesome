@@ -102,6 +102,7 @@ class CameraPage extends StatelessWidget {
           state: state,
           left: AwesomeFlashButton(
             state: state,
+            isFrontCamera: false,
           ),
           right: AwesomeCameraSwitchButton(
             state: state,

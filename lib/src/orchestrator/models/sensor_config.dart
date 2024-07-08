@@ -122,13 +122,10 @@ class SensorConfig {
         newFlashMode = FlashMode.auto;
         break;
       case FlashMode.on:
-        newFlashMode = FlashMode.always;
+        newFlashMode = FlashMode.none;
         break;
       case FlashMode.auto:
         newFlashMode = FlashMode.on;
-        break;
-      case FlashMode.always:
-        newFlashMode = FlashMode.none;
         break;
     }
     setFlashMode(newFlashMode);

@@ -20,7 +20,7 @@ class AwesomeTopActions extends StatelessWidget {
             (state is VideoRecordingCameraState
                 ? [const SizedBox.shrink()]
                 : [
-                    AwesomeFlashButton(state: state),
+                    AwesomeFlashButton(state: state, isFrontCamera: false),
                     if (state is PhotoCameraState)
                       AwesomeAspectRatioButton(state: state),
                     if (state is PhotoCameraState)

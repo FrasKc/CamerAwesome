@@ -12,6 +12,7 @@ class AwesomeFlashButton extends StatelessWidget {
   final AwesomeTheme? theme;
   final Widget Function(FlashMode) iconBuilder;
   final void Function(SensorConfig, FlashMode) onFlashTap;
+  final bool isFrontCamera;
 
   AwesomeFlashButton({
     super.key,
@@ -19,30 +20,35 @@ class AwesomeFlashButton extends StatelessWidget {
     this.theme,
     Widget Function(FlashMode)? iconBuilder,
     void Function(SensorConfig, FlashMode)? onFlashTap,
+    required this.isFrontCamera,
   })  : iconBuilder = iconBuilder ??
-            ((flashMode) {
-              final IconData icon;
-              switch (flashMode) {
-                case FlashMode.none:
-                  icon = Icons.flash_off;
-                  break;
-                case FlashMode.on:
-                  icon = Icons.flash_on;
-                  break;
-                case FlashMode.auto:
-                  icon = Icons.flash_auto;
-                  break;
-                case FlashMode.always:
-                  icon = Icons.flashlight_on;
-                  break;
-              }
-              return AwesomeCircleWidget.icon(
-                icon: icon,
-                theme: theme,
-              );
-            }),
+      ((flashMode) {
+        final IconData icon;
+        switch (flashMode) {
+          case FlashMode.none:
+            icon = Icons.flash_off;
+            break;
+          case FlashMode.on:
+            icon = Icons.flash_on;
+            break;
+          case FlashMode.auto:
+            icon = Icons.flash_auto;
+            break;
+        }
+        return AwesomeCircleWidget.icon(
+          icon: icon,
+          theme: theme,
+        );
+      }),
         onFlashTap = onFlashTap ??
-            ((sensorConfig, flashMode) => sensorConfig.switchCameraFlash());
+            ((sensorConfig, flashMode) {
+              if (isFrontCamera) {
+                sensorConfig.setFlashMode(FlashMode.on);
+              } else {
+                // Original logic or modified logic for rear camera
+                sensorConfig.switchCameraFlash();
+              }
+            });
 
   @override
   Widget build(BuildContext context) {
