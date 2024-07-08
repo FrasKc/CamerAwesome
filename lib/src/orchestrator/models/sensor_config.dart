@@ -130,6 +130,17 @@ class SensorConfig {
     setFlashMode(newFlashMode);
   }
 
+  /// Switch the flash according to the front camera state
+  void switchCameraFlashFront() {
+    final FlashMode newFlashMode;
+    if (flashMode == FlashMode.none) {
+      newFlashMode = FlashMode.on;
+    } else {
+      newFlashMode = FlashMode.none;
+    }
+    setFlashMode(newFlashMode);
+  }
+
   /// switch the camera preview / photo / video aspect ratio
   /// [CameraAspectRatios.ratio_16_9]
   /// [CameraAspectRatios.ratio_4_3]

@@ -57,7 +57,8 @@ class AwesomeFlashButton extends StatelessWidget {
             ((sensorConfig, flashMode) {
               final sensor = state.sensorConfig.sensors.first;
               if (sensor.position == SensorPosition.front) {
-                sensorConfig.setFlashMode(FlashMode.on);
+                print("Sensor position is front and flash is on");
+                sensorConfig.switchCameraFlashFront();
               } else {
                 sensorConfig.switchCameraFlash();
               }
