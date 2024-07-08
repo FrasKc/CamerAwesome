@@ -32,7 +32,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SingleCameraPreview : NSObject<AVCaptureVideoDataOutputSampleBufferDelegate,
-AVCaptureAudioDataOutputSampleBufferDelegate>
+        AVCaptureAudioDataOutputSampleBufferDelegate>
 
 // TODO: move this to a single camera ?
 @property(readonly, nonatomic) AVCaptureSession *captureSession;
@@ -65,17 +65,18 @@ AVCaptureAudioDataOutputSampleBufferDelegate>
 @property(readonly, nonatomic) PhysicalButtonController *physicalButtonController;
 @property(readonly, copy) void (^completion)(NSNumber * _Nullable, FlutterError * _Nullable);
 @property(nonatomic, copy) void (^onPreviewFrameAvailable)(void);
+@property(readonly, nonatomic) AVCaptureDevice *currentCaptureDevice;
 
 - (instancetype)initWithCameraSensor:(PigeonSensorPosition)sensor
                         videoOptions:(nullable CupertinoVideoOptions *)videoOptions
-                    recordingQuality:(VideoRecordingQuality)recordingQuality
-                        streamImages:(BOOL)streamImages
-                   mirrorFrontCamera:(BOOL)mirrorFrontCamera
-                enablePhysicalButton:(BOOL)enablePhysicalButton
-                     aspectRatioMode:(AspectRatio)aspectRatioMode
-                         captureMode:(CaptureModes)captureMode
-                          completion:(nonnull void (^)(NSNumber * _Nullable, FlutterError * _Nullable))completion
-                       dispatchQueue:(dispatch_queue_t)dispatchQueue;
+        recordingQuality:(VideoRecordingQuality)recordingQuality
+        streamImages:(BOOL)streamImages
+        mirrorFrontCamera:(BOOL)mirrorFrontCamera
+        enablePhysicalButton:(BOOL)enablePhysicalButton
+        aspectRatioMode:(AspectRatio)aspectRatioMode
+        captureMode:(CaptureModes)captureMode
+        completion:(nonnull void (^)(NSNumber * _Nullable, FlutterError * _Nullable))completion
+        dispatchQueue:(dispatch_queue_t)dispatchQueue;
 - (void)setImageStreamEvent:(FlutterEventSink)imageStreamEventSink;
 - (void)setOrientationEventSink:(FlutterEventSink)orientationEventSink;
 - (void)setPhysicalButtonEventSink:(FlutterEventSink)physicalButtonEventSink;
