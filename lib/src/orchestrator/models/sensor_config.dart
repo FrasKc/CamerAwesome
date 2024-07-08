@@ -138,6 +138,7 @@ class SensorConfig {
     } else {
       newFlashMode = FlashMode.none;
     }
+    print("Switching flash to $newFlashMode");
     setFlashMode(newFlashMode);
   }
 
