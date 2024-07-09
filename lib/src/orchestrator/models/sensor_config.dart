@@ -173,6 +173,7 @@ class SensorConfig {
     if (brightness < 0 || brightness > 1) {
       throw "Brightness value must be between 0 and 1";
     }
+    print("Setting brightness to $brightness");
     // The stream will debounce before actually setting the brightness
     _brightnessController.sink.add(brightness);
   }
