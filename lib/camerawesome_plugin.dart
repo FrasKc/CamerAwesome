@@ -428,7 +428,7 @@ class CamerawesomePlugin {
             ),
           )
           .toList();
-      print("Front : $frontSensorsData");
+      print("Front : $SensorTypeDevice");
       final backSensorsData = backSensors
           .map(
             (data) => SensorTypeDevice(
