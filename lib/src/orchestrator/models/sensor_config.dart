@@ -130,18 +130,6 @@ class SensorConfig {
     setFlashMode(newFlashMode);
   }
 
-  /// Switch the flash according to the front camera state
-  void switchCameraFlashFront() {
-    final FlashMode newFlashMode;
-    if (flashMode == FlashMode.none) {
-      newFlashMode = FlashMode.on;
-    } else {
-      newFlashMode = FlashMode.none;
-    }
-    print("Switching flash to $newFlashMode");
-    setFlashMode(newFlashMode);
-  }
-
   /// switch the camera preview / photo / video aspect ratio
   /// [CameraAspectRatios.ratio_16_9]
   /// [CameraAspectRatios.ratio_4_3]
@@ -173,7 +161,6 @@ class SensorConfig {
     if (brightness < 0 || brightness > 1) {
       throw "Brightness value must be between 0 and 1";
     }
-    print("Setting brightness to $brightness");
     // The stream will debounce before actually setting the brightness
     _brightnessController.sink.add(brightness);
   }
