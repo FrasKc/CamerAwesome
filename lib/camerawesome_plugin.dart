@@ -428,6 +428,7 @@ class CamerawesomePlugin {
             ),
           )
           .toList();
+      print("Front : $frontSensorsData");
       final backSensorsData = backSensors
           .map(
             (data) => SensorTypeDevice(
@@ -441,7 +442,7 @@ class CamerawesomePlugin {
             ),
           )
           .toList();
-
+      print("Back : $backSensorsData");
       return SensorDeviceData(
         ultraWideAngle: backSensorsData
             .where(
