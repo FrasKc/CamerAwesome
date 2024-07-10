@@ -15,8 +15,6 @@ enum CameraPreviewFit {
   cover,
 }
 
-/// This is a fullscreen camera preview
-/// some part of the preview are cropped so we have a full sized camera preview
 class AwesomeCameraPreview extends StatefulWidget {
   final CameraPreviewFit previewFit;
   final Widget? loadingWidget;
@@ -51,18 +49,14 @@ class AwesomeCameraPreview extends StatefulWidget {
 
 class AwesomeCameraPreviewState extends State<AwesomeCameraPreview> {
   PreviewSize? _previewSize;
-
   final List<Texture> _textures = [];
-
   PreviewSize? get pixelPreviewSize => _previewSize;
-
   StreamSubscription? _sensorConfigSubscription;
   StreamSubscription? _aspectRatioSubscription;
   CameraAspectRatios? _aspectRatio;
   double? _aspectRatioValue;
   Preview? _preview;
 
-  // TODO: fetch this value from the native side
   final int kMaximumSupportedFloatingPreview = 3;
 
   @override
@@ -79,41 +73,36 @@ class AwesomeCameraPreviewState extends State<AwesomeCameraPreview> {
       }
     });
 
-    // refactor this
     _sensorConfigSubscription =
         widget.state.sensorConfig$.listen((sensorConfig) {
-      _aspectRatioSubscription?.cancel();
-      _aspectRatioSubscription =
-          sensorConfig.aspectRatio$.listen((event) async {
-        final previewSize = await widget.state.previewSize(0);
-        if ((_previewSize != previewSize || _aspectRatio != event) && mounted) {
-          setState(() {
-            _aspectRatio = event;
-            switch (event) {
-              case CameraAspectRatios.ratio_16_9:
-                _aspectRatioValue = 16 / 9;
-                break;
-              case CameraAspectRatios.ratio_4_3:
-                _aspectRatioValue = 4 / 3;
-                break;
-              case CameraAspectRatios.ratio_1_1:
-                _aspectRatioValue = 1;
-                break;
-            }
-            _previewSize = previewSize;
-          });
-        }
-      });
-    });
+          _aspectRatioSubscription?.cancel();
+          _aspectRatioSubscription =
+              sensorConfig.aspectRatio$.listen((event) async {
+                final previewSize = await widget.state.previewSize(0);
+                if ((_previewSize != previewSize || _aspectRatio != event) && mounted) {
+                  setState(() {
+                    _aspectRatio = event;
+                    switch (event) {
+                      case CameraAspectRatios.ratio_16_9:
+                        _aspectRatioValue = 16 / 9;
+                        break;
+                      case CameraAspectRatios.ratio_4_3:
+                        _aspectRatioValue = 4 / 3;
+                        break;
+                      case CameraAspectRatios.ratio_1_1:
+                        _aspectRatioValue = 1;
+                        break;
+                    }
+                    _previewSize = previewSize;
+                  });
+                }
+              });
+        });
   }
 
   Future _loadTextures() async {
-    // ignore: invalid_use_of_protected_member
     final sensors = widget.state.cameraContext.sensorConfig.sensors.length;
 
-    // Set it to true to debug the floating preview on a device that doesn't
-    // support multicam
-    // ignore: dead_code
     if (false) {
       for (int i = 0; i < 2; i++) {
         final textureId = await widget.state.previewTextureId(0);
@@ -177,26 +166,25 @@ class AwesomeCameraPreviewState extends State<AwesomeCameraPreview> {
                   },
                   child: AwesomeCameraGestureDetector(
                     onPreviewTapBuilder:
-                        widget.onPreviewTap != null && _previewSize != null
-                            ? OnPreviewTapBuilder(
-                                pixelPreviewSizeGetter: () => _previewSize!,
-                                flutterPreviewSizeGetter: () =>
-                                    _previewSize!, //croppedPreviewSize,
-                                onPreviewTap: widget.onPreviewTap!,
-                              )
-                            : null,
+                    widget.onPreviewTap != null && _previewSize != null
+                        ? OnPreviewTapBuilder(
+                      pixelPreviewSizeGetter: () => _previewSize!,
+                      flutterPreviewSizeGetter: () =>
+                      _previewSize!,
+                      onPreviewTap: widget.onPreviewTap!,
+                    )
+                        : null,
                     onPreviewScale: widget.onPreviewScale,
                     initialZoom: widget.state.sensorConfig.zoom,
                     child: StreamBuilder<AwesomeFilter>(
-                      //FIX performances
                       stream: widget.state.filter$,
                       builder: (context, snapshot) {
                         return snapshot.hasData &&
-                                snapshot.data != AwesomeFilter.None
+                            snapshot.data != AwesomeFilter.None
                             ? ColorFiltered(
-                                colorFilter: snapshot.data!.preview,
-                                child: _textures.first,
-                              )
+                          colorFilter: snapshot.data!.preview,
+                          child: _textures.first,
+                        )
                             : _textures.first;
                       },
                     ),
@@ -217,8 +205,6 @@ class AwesomeCameraPreviewState extends State<AwesomeCameraPreview> {
                     _preview!,
                   ),
                 ),
-              // TODO: be draggable
-              // TODO: add shadow & border
               ..._buildPreviewTextures(),
             ],
           );
@@ -229,15 +215,12 @@ class AwesomeCameraPreviewState extends State<AwesomeCameraPreview> {
 
   List<Widget> _buildPreviewTextures() {
     final previewFrames = <Widget>[];
-    // if there is only one texture
     if (_textures.length <= 1) {
       return previewFrames;
     }
-    // ignore: invalid_use_of_protected_member
     final sensors = widget.state.cameraContext.sensorConfig.sensors;
 
     for (int i = 1; i < _textures.length; i++) {
-      // TODO: add a way to retrive how camera can be added ("budget" on iOS ?)
       if (i >= kMaximumSupportedFloatingPreview) {
         break;
       }
@@ -250,14 +233,14 @@ class AwesomeCameraPreviewState extends State<AwesomeCameraPreview> {
         texture: texture,
         aspectRatio: 1 / _aspectRatioValue!,
         pictureInPictureConfig:
-            widget.pictureInPictureConfigBuilder?.call(i, sensor) ??
-                PictureInPictureConfig(
-                  startingPosition: Offset(
-                    i * 20,
-                    MediaQuery.of(context).padding.top + 60 + (i * 20),
-                  ),
-                  sensor: sensor,
-                ),
+        widget.pictureInPictureConfigBuilder?.call(i, sensor) ??
+            PictureInPictureConfig(
+              startingPosition: Offset(
+                i * 20,
+                MediaQuery.of(context).padding.top + 60 + (i * 20),
+              ),
+              sensor: sensor,
+            ),
       );
       previewFrames.add(frame);
     }
