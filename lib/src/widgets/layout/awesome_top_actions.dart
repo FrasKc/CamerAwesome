@@ -22,7 +22,9 @@ class AwesomeTopActions extends StatelessWidget {
                 : [
                     AwesomeFlashButton(state: state),
                     if (state is PhotoCameraState)
-                      AwesomeAspectRatioButton(state: state),
+                      AwesomeAspectRatioButton(state: state, onAspectRatioTap: () {
+
+                      },),
                     if (state is PhotoCameraState)
                       AwesomeLocationButton(state: state),
                   ]);
