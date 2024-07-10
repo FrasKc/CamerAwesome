@@ -1,3 +1,4 @@
+import 'package:camerawesome/camerawesome_plugin.dart';
 import 'package:camerawesome/src/orchestrator/models/models.dart';
 import 'package:camerawesome/src/orchestrator/states/photo_camera_state.dart';
 import 'package:camerawesome/src/widgets/utils/awesome_circle_icon.dart';
@@ -6,7 +7,7 @@ import 'package:camerawesome/src/widgets/utils/awesome_theme.dart';
 import 'package:flutter/material.dart';
 
 class AwesomeAspectRatioButton extends StatelessWidget {
-  final PhotoCameraState state;
+  final CameraState state;
   final AwesomeTheme? theme;
   final Widget Function(CameraAspectRatios aspectRatio) iconBuilder;
   final void Function(SensorConfig sensorConfig, CameraAspectRatios aspectRatio)
