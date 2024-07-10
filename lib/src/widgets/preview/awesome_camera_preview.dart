@@ -123,7 +123,7 @@ class AwesomeCameraPreviewState extends State<AwesomeCameraPreview> {
     }
   }
 
-  void _changeAspectRatio() {
+  void changeAspectRatio() {
     setState(() {
       if (_aspectRatio == CameraAspectRatios.ratio_16_9) {
         widget.state.sensorConfig.setAspectRatio(CameraAspectRatios.ratio_4_3);
@@ -180,8 +180,7 @@ class AwesomeCameraPreviewState extends State<AwesomeCameraPreview> {
                     widget.onPreviewTap != null && _previewSize != null
                         ? OnPreviewTapBuilder(
                       pixelPreviewSizeGetter: () => _previewSize!,
-                      flutterPreviewSizeGetter: () =>
-                      _previewSize!,
+                      flutterPreviewSizeGetter: () => _previewSize!,
                       onPreviewTap: widget.onPreviewTap!,
                     )
                         : null,
@@ -217,18 +216,6 @@ class AwesomeCameraPreviewState extends State<AwesomeCameraPreview> {
                   ),
                 ),
               ..._buildPreviewTextures(),
-              Positioned(
-                top: 16.0,
-                right: 16.0,
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.aspect_ratio,
-                    color: Colors.white,
-                    size: 30.0,
-                  ),
-                  onPressed: _changeAspectRatio,
-                ),
-              ),
             ],
           );
         },

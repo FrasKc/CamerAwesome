@@ -10,16 +10,14 @@ class AwesomeAspectRatioButton extends StatelessWidget {
   final CameraState state;
   final AwesomeTheme? theme;
   final Widget Function(CameraAspectRatios aspectRatio) iconBuilder;
-  final void Function(SensorConfig sensorConfig, CameraAspectRatios aspectRatio)
-  onAspectRatioTap;
+  final void Function() onAspectRatioTap;
 
   AwesomeAspectRatioButton({
     super.key,
     required this.state,
     this.theme,
     Widget Function(CameraAspectRatios aspectRatio)? iconBuilder,
-    void Function(SensorConfig sensorConfig, CameraAspectRatios aspectRatio)?
-    onAspectRatioTap,
+    required this.onAspectRatioTap,
   })  : iconBuilder = iconBuilder ??
       ((aspectRatio) {
         final AssetImage icon;
@@ -69,9 +67,7 @@ class AwesomeAspectRatioButton extends StatelessWidget {
             ),
           );
         });
-      }),
-        onAspectRatioTap = onAspectRatioTap ??
-            ((sensorConfig, aspectRatio) => sensorConfig.switchCameraRatio());
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +91,7 @@ class AwesomeAspectRatioButton extends StatelessWidget {
               rotateWithDevice: theme.buttonTheme.rotateWithCamera,
               child: theme.buttonTheme.buttonBuilder(
                 iconBuilder(snapshot.requireData),
-                    () => onAspectRatioTap(sensorConfig, snapshot.requireData),
+                onAspectRatioTap,
               ),
             );
           },
