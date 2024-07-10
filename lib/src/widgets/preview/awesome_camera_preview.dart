@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:camerawesome/camerawesome_plugin.dart';
 import 'package:camerawesome/pigeon.dart';
 import 'package:camerawesome/src/widgets/preview/awesome_preview_fit.dart';
@@ -124,6 +123,18 @@ class AwesomeCameraPreviewState extends State<AwesomeCameraPreview> {
     }
   }
 
+  void _changeAspectRatio() {
+    setState(() {
+      if (_aspectRatio == CameraAspectRatios.ratio_16_9) {
+        widget.state.sensorConfig.setAspectRatio(CameraAspectRatios.ratio_4_3);
+      } else if (_aspectRatio == CameraAspectRatios.ratio_4_3) {
+        widget.state.sensorConfig.setAspectRatio(CameraAspectRatios.ratio_1_1);
+      } else {
+        widget.state.sensorConfig.setAspectRatio(CameraAspectRatios.ratio_16_9);
+      }
+    });
+  }
+
   @override
   void dispose() {
     _sensorConfigSubscription?.cancel();
@@ -206,6 +217,18 @@ class AwesomeCameraPreviewState extends State<AwesomeCameraPreview> {
                   ),
                 ),
               ..._buildPreviewTextures(),
+              Positioned(
+                top: 16.0,
+                right: 16.0,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.aspect_ratio,
+                    color: Colors.white,
+                    size: 30.0,
+                  ),
+                  onPressed: _changeAspectRatio,
+                ),
+              ),
             ],
           );
         },
