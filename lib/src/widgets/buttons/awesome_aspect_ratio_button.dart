@@ -17,7 +17,7 @@ class AwesomeAspectRatioButton extends StatelessWidget {
     required this.state,
     this.theme,
     Widget Function(CameraAspectRatios aspectRatio)? iconBuilder,
-    void Function()? onAspectRatioTap,
+    required this.onAspectRatioTap,
   })  : iconBuilder = iconBuilder ??
       ((aspectRatio) {
         final AssetImage icon;
@@ -67,8 +67,7 @@ class AwesomeAspectRatioButton extends StatelessWidget {
             ),
           );
         });
-      }),
-        onAspectRatioTap = onAspectRatioTap ?? (() {});
+      });
 
   @override
   Widget build(BuildContext context) {

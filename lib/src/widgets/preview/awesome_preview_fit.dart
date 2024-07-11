@@ -98,15 +98,6 @@ class _AnimatedPreviewFitState extends State<AnimatedPreviewFit> {
 
   @override
   Widget build(BuildContext context) {
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    // final RenderBox renderBox =
-    //     previewWidgetKey.currentContext?.findRenderObject() as RenderBox;
-    // final position = renderBox.localToGlobal(Offset.zero);
-    // this contains the translations from the top left corner of the screen
-    // debugPrint(
-    //     "==> position ${position.dx}, ${position.dy} | ${renderBox.size}");
-    // });
-
     return TweenAnimationBuilder<Size>(
       builder: (context, currentSize, child) {
         final ratio = sizeCalculator!.zoom;
@@ -158,7 +149,6 @@ class PreviewFitWidget extends StatelessWidget {
         width: maxSize.width,
         height: maxSize.height,
         child: InteractiveViewer(
-          // key: previewWidgetKey,
           transformationController: transformController,
           scaleEnabled: false,
           constrained: false,
@@ -177,8 +167,6 @@ class PreviewFitWidget extends StatelessWidget {
       ),
     );
   }
-
-  double get previewRatio => previewSize.width / previewSize.height;
 }
 
 class PreviewSizeCalculator {
@@ -242,14 +230,11 @@ class PreviewSizeCalculator {
         break;
       case CameraPreviewFit.cover:
         maxSize = Size(constraints.maxWidth, constraints.maxHeight);
-
         if (constraints.maxWidth / constraints.maxHeight >
             previewSize.width / previewSize.height) {
           _offset = Offset((hDiff * zoom) * 2, 0);
-          // _offset = Offset(0, constraints.maxHeight - maxSize.height);
         } else {
           _offset = Offset(0, (wDiff * zoom));
-          // _offset = Offset(constraints.maxWidth - maxSize.width, 0);
         }
         break;
       case CameraPreviewFit.contain:
@@ -278,10 +263,10 @@ class PreviewSizeCalculator {
 
     switch (previewFit) {
       case CameraPreviewFit.fitWidth:
-        ratio = constraints.maxWidth / nativePreviewSize.width; // 800 / 960
+        ratio = constraints.maxWidth / nativePreviewSize.width;
         break;
       case CameraPreviewFit.fitHeight:
-        ratio = constraints.maxHeight / nativePreviewSize.height; // 1220 / 1280
+        ratio = constraints.maxHeight / nativePreviewSize.height;
         break;
       case CameraPreviewFit.cover:
         if (constraints.maxWidth / constraints.maxHeight >
@@ -304,11 +289,11 @@ class PreviewSizeCalculator {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PreviewSizeCalculator &&
-          runtimeType == other.runtimeType &&
-          previewFit == other.previewFit &&
-          constraints == other.constraints &&
-          previewSize == other.previewSize;
+          other is PreviewSizeCalculator &&
+              runtimeType == other.runtimeType &&
+              previewFit == other.previewFit &&
+              constraints == other.constraints &&
+              previewSize == other.previewSize;
 
   @override
   int get hashCode => previewSize.hashCode ^ previewSize.hashCode;
